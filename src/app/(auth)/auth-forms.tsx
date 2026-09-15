@@ -14,16 +14,20 @@ export function LoginForm() {
     <form action={action} className="flex w-full flex-col gap-4">
       <div className="flex flex-col gap-1.5">
         <label htmlFor="email" className="text-sm font-medium">
-          Email
+          Email Google
         </label>
         <input
           id="email"
           name="email"
           type="email"
           required
+          placeholder="nama@gmail.com"
           autoComplete="email"
           className="input"
         />
+        <span className="text-xs text-muted">
+          Hanya email Google (@gmail.com) yang didukung.
+        </span>
       </div>
       <div className="flex flex-col gap-1.5">
         <label htmlFor="password" className="text-sm font-medium">
@@ -78,16 +82,20 @@ export function RegisterForm() {
       </div>
       <div className="flex flex-col gap-1.5">
         <label htmlFor="email" className="text-sm font-medium">
-          Email
+          Email Google
         </label>
         <input
           id="email"
           name="email"
           type="email"
           required
+          placeholder="nama@gmail.com"
           autoComplete="email"
           className="input"
         />
+        <span className="text-xs text-muted">
+          Wajib menggunakan email Google (@gmail.com).
+        </span>
       </div>
       <div className="flex flex-col gap-1.5">
         <label htmlFor="password" className="text-sm font-medium">

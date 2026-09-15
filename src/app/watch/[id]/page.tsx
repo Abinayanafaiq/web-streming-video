@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
@@ -7,8 +8,56 @@ import VideoCard, {
   formatDuration,
   formatViews,
 } from "@/components/video-card";
+import ShareButton from "@/components/share-button";
 
 export const dynamic = "force-dynamic";
+
+type WatchParams = { id: string };
+
+async function getVideo(id: string) {
+  return prisma.video.findFirst({ where: { id, published: true } });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<WatchParams>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const video = await getVideo(id);
+
+  if (!video) {
+    return { title: "Video tidak ditemukan — Videqqu" };
+  }
+
+  const description =
+    video.description.slice(0, 300) ||
+    "Tonton video ini di Videqqu.";
+
+  return {
+    title: `${video.title} — Videqqu`,
+    description,
+    openGraph: {
+      type: "video.other",
+      title: video.title,
+      description,
+      url: `/watch/${video.id}`,
+      siteName: "Videqqu",
+      images: video.thumbnailUrl
+        ? [{ url: video.thumbnailUrl, width: 1280, height: 720, alt: video.title }]
+        : undefined,
+      videos: video.url.match(/\.(mp4|webm)(\?.*)?$/i)
+        ? [{ url: video.url }]
+        : undefined,
+    },
+    twitter: {
+      card: video.thumbnailUrl ? "summary_large_image" : "summary",
+      title: video.title,
+      description,
+      images: video.thumbnailUrl ? [video.thumbnailUrl] : undefined,
+    },
+  };
+}
 
 export default async function WatchPage({
   params,
@@ -85,6 +134,12 @@ export default async function WatchPage({
               <p className="mt-3 whitespace-pre-line border-t border-border pt-3 text-sm text-muted">
                 {video.description}
               </p>
+              <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
+                <ShareButton title={video.title} path={`/watch/${video.id}`} />
+                <span className="text-xs text-muted">
+                  Bagikan video ini — preview link akan tampil di chat/media sosial
+                </span>
+              </div>
             </div>
           </div>
 

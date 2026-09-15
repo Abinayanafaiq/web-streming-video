@@ -1,13 +1,29 @@
 import { z } from "zod";
 
+export const GMAIL_REGEX = /^[\w.+-]+@(gmail\.com|googlemail\.com)$/i;
+
+export const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "admin@kuantriset.local")
+  .split(",")
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
+
+const GMAIL_EMAIL = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .email()
+  .refine((v) => GMAIL_REGEX.test(v) || ADMIN_EMAILS.includes(v), {
+    message: "Hanya email Google (Gmail) yang diizinkan.",
+  });
+
 export const registerSchema = z.object({
-  email: z.email(),
+  email: GMAIL_EMAIL,
   name: z.string().trim().min(1).max(80).optional(),
   password: z.string().min(8).max(72),
 });
 
 export const loginSchema = z.object({
-  email: z.email(),
+  email: GMAIL_EMAIL,
   password: z.string().min(1).max(72),
 });
 

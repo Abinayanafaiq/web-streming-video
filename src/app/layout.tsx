@@ -13,9 +13,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Videqqu — Streaming Video",
+  title: {
+    default: "Videqqu — Streaming Video",
+    template: "%s",
+  },
   description:
     "Platform streaming video dengan konten yang dikelola langsung oleh admin.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  openGraph: {
+    type: "website",
+    siteName: "Videqqu",
+    title: "Videqqu — Streaming Video",
+    description:
+      "Tonton video favoritmu di Videqqu. Gratis, cepat, dan mudah dibagikan.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Videqqu — Streaming Video",
+    description:
+      "Tonton video favoritmu di Videqqu. Gratis, cepat, dan mudah dibagikan.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

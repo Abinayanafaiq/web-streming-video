@@ -8,7 +8,7 @@ import {
   hashPassword,
   verifyPassword,
 } from "@/lib/auth";
-import { loginSchema, registerSchema } from "@/lib/validation";
+import { loginSchema, registerSchema, GMAIL_REGEX } from "@/lib/validation";
 
 export type AuthState = { error?: string } | undefined;
 
@@ -23,7 +23,12 @@ export async function registerAction(
   });
 
   if (!parsed.success) {
-    return { error: "Email tidak valid atau password minimal 8 karakter." };
+    const issue = parsed.error.issues[0]?.message ?? "";
+    return {
+      error: issue.includes("Google")
+        ? issue
+        : "Email tidak valid atau password minimal 8 karakter.",
+    };
   }
 
   const email = parsed.data.email.toLowerCase();
@@ -57,7 +62,14 @@ export async function loginAction(
   });
 
   if (!parsed.success) {
-    return { error: "Email atau password tidak valid." };
+    const isGmail = GMAIL_REGEX.test(
+      String(formData.get("email") ?? "").trim(),
+    );
+    return {
+      error: isGmail
+        ? "Email atau password tidak valid."
+        : "Hanya email Google (Gmail) yang dapat digunakan untuk masuk.",
+    };
   }
 
   const user = await prisma.user.findUnique({
