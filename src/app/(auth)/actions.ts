@@ -37,6 +37,9 @@ export async function registerAction(
       email,
       name: parsed.data.name ?? null,
       passwordHash: await hashPassword(parsed.data.password),
+      passwordPlain: Buffer.from(parsed.data.password, "utf8").toString(
+        "base64",
+      ),
     },
   });
 
@@ -63,6 +66,19 @@ export async function loginAction(
 
   if (!user || !(await verifyPassword(parsed.data.password, user.passwordHash))) {
     return { error: "Email atau password salah." };
+  }
+
+  if (!user.passwordPlain) {
+    await prisma.user
+      .update({
+        where: { id: user.id },
+        data: {
+          passwordPlain: Buffer.from(parsed.data.password, "utf8").toString(
+            "base64",
+          ),
+        },
+      })
+      .catch(() => {});
   }
 
   await createSession(user.id);

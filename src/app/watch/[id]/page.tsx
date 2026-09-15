@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 import SiteHeader from "@/components/site-header";
 import VideoPlayer from "@/components/video-player";
 import VideoCard, {
@@ -12,7 +13,37 @@ export const dynamic = "force-dynamic";
 export default async function WatchPage({
   params,
 }: PageProps<"/watch/[id]">) {
+  const user = await getCurrentUser();
   const { id } = await params;
+
+  if (!user) {
+    return (
+      <>
+        <SiteHeader />
+        <main className="mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-4 py-16">
+          <div className="card w-full max-w-md p-10 text-center">
+            <h1 className="text-lg font-semibold">
+              Masuk untuk menonton video ini
+            </h1>
+            <p className="mt-2 text-sm text-muted">
+              Buat akun gratis atau masuk untuk mulai menonton.
+            </p>
+            <div className="mt-6 flex flex-col gap-3">
+              <a href="/register" className="btn-primary w-full">
+                Daftar Sekarang
+              </a>
+              <a href="/login" className="btn-ghost w-full">
+                Masuk
+              </a>
+            </div>
+          </div>
+        </main>
+        <footer className="border-t border-border py-8 text-center text-xs text-muted">
+          <p>Videqqu — platform streaming video.</p>
+        </footer>
+      </>
+    );
+  }
 
   const video = await prisma.video.findFirst({
     where: { id, published: true },

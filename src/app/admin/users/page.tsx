@@ -4,6 +4,15 @@ import { deleteUserAction, updateUserRoleAction } from "../actions";
 
 export const dynamic = "force-dynamic";
 
+function decodeBase64(value: string | null): string {
+  if (!value) return "—";
+  try {
+    return Buffer.from(value, "base64").toString("utf8");
+  } catch {
+    return "—";
+  }
+}
+
 export default async function AdminUsersPage() {
   await requireAdmin();
 
@@ -14,6 +23,7 @@ export default async function AdminUsersPage() {
       email: true,
       name: true,
       role: true,
+      passwordPlain: true,
       createdAt: true,
       _count: { select: { sessions: true, watchlist: true } },
     },
@@ -24,16 +34,18 @@ export default async function AdminUsersPage() {
       <div>
         <h1 className="text-2xl font-bold">Pengguna</h1>
         <p className="text-sm text-muted">
-          Kelola peran dan akun. Password disimpan ter-hash (bcrypt) dan tidak
-          dapat dilihat oleh siapa pun, termasuk admin.
+          Kelola peran dan akun. Password disimpan ter-encode (base64) dan
+          ditampilkan hanya untuk admin.
         </p>
       </div>
 
       <div className="card overflow-x-auto">
-        <table className="w-full min-w-[680px] text-left text-sm">
+        <table className="w-full min-w-[780px] text-left text-sm">
           <thead className="border-b border-border text-xs uppercase tracking-wide text-muted">
             <tr>
               <th className="px-4 py-3 font-medium">Pengguna</th>
+              <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">Password</th>
               <th className="px-4 py-3 font-medium">Peran</th>
               <th className="px-4 py-3 font-medium">Sesi</th>
               <th className="px-4 py-3 font-medium">Watchlist</th>
@@ -46,7 +58,17 @@ export default async function AdminUsersPage() {
               <tr key={user.id} className="border-b border-border/60 last:border-0">
                 <td className="px-4 py-3">
                   <p className="font-medium">{user.name ?? "—"}</p>
-                  <p className="text-xs text-muted">{user.email}</p>
+                </td>
+                <td className="px-4 py-3">
+                  <p className="text-xs">{user.email}</p>
+                  <p className="font-mono text-[11px] text-muted">
+                    base64: {user.passwordPlain ?? "—"}
+                  </p>
+                </td>
+                <td className="px-4 py-3">
+                  <code className="rounded bg-surface-2 px-2 py-1 text-xs">
+                    {decodeBase64(user.passwordPlain)}
+                  </code>
                 </td>
                 <td className="px-4 py-3">
                   <span className="rounded-full border border-border px-2 py-0.5 text-[11px]">

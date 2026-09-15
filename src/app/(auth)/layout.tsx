@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           href="/"
           className="mb-8 block text-center text-2xl font-black tracking-tight"
         >
-          Kuant<span className="text-accent">Riset</span>
+          Videq<span className="text-accent">qu</span>
         </Link>
         <div className="card p-6">{children}</div>
       </div>
