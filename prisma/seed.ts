@@ -99,6 +99,9 @@ const VIDEOS = [
     description:
       "Video pengenalan dasar-dasar pasar modal: instrumen, risiko, dan cara membaca pergerakan harga. Cocok untuk penonton baru.",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    thumbnailUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+    duration: 596,
     featured: true,
   },
   {
@@ -106,6 +109,9 @@ const VIDEOS = [
     description:
       "Tutorial membaca pola candlestick dan konteks di baliknya. Dilengkapi contoh kasus pada data historis nyata.",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    thumbnailUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+    duration: 653,
     featured: false,
   },
   {
@@ -113,6 +119,9 @@ const VIDEOS = [
     description:
       "Pembahasan prinsip diversifikasi, korelasi antar aset, dan cara menyusun alokasi yang tahan terhadap volatilitas.",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    thumbnailUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
+    duration: 15,
     featured: false,
   },
 ];
@@ -159,7 +168,14 @@ async function main() {
     if (existing) {
       await prisma.video.update({
         where: { id: existing.id },
-        data: { title: video.title, description: video.description, url: video.url, featured: video.featured },
+        data: {
+          title: video.title,
+          description: video.description,
+          url: video.url,
+          thumbnailUrl: video.thumbnailUrl,
+          duration: video.duration,
+          featured: video.featured,
+        },
       });
     } else {
       await prisma.video.create({

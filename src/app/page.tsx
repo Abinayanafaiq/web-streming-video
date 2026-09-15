@@ -1,58 +1,62 @@
 import { prisma } from "@/lib/prisma";
 import SiteHeader from "@/components/site-header";
 import VideoCard from "@/components/video-card";
-import VideoPlayer from "@/components/video-player";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
+type HomeSearchParams = { q?: string | string[] };
+
 export default async function HomePage({
   searchParams,
-}: PageProps<"/">) {
-  const { v } = await searchParams;
-  const selectedId = typeof v === "string" ? v : undefined;
+}: {
+  searchParams: Promise<HomeSearchParams>;
+}) {
+  const { q } = await searchParams;
+  const query = typeof q === "string" ? q.trim() : "";
 
   const videos = await prisma.video.findMany({
-    where: { published: true },
+    where: {
+      published: true,
+      ...(query
+        ? {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { description: { contains: query, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
     orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
   });
-
-  const active =
-    videos.find((video) => video.id === selectedId) ?? videos[0] ?? null;
 
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
-        {videos.length === 0 || !active ? (
-          <div className="card p-10 text-center">
-            <p className="text-lg font-semibold">Belum ada video</p>
-            <p className="mt-2 text-sm text-muted">
-              Video yang ditambahkan admin akan muncul di sini.
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6">
+        {query ? (
+          <p className="mb-4 text-sm text-muted">
+            Hasil untuk{" "}
+            <span className="font-semibold text-foreground">&ldquo;{query}&rdquo;</span>{" "}
+            — {videos.length} video
+          </p>
+        ) : null}
+
+        {videos.length === 0 ? (
+          <div className="card p-12 text-center">
+            <p className="text-lg font-semibold">
+              {query ? "Tidak ada video ditemukan" : "Belum ada video"}
             </p>
-            <Link href="/login" className="btn-primary mt-6 inline-flex">
-              Masuk sebagai Admin
-            </Link>
+            <p className="mt-2 text-sm text-muted">
+              {query
+                ? "Coba kata kunci lain."
+                : "Video yang ditambahkan admin akan muncul di sini."}
+            </p>
           </div>
         ) : (
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-            <div className="flex flex-col gap-4">
-              <VideoPlayer
-                id={active.id}
-                src={active.url}
-                title={active.title}
-                description={active.description}
-              />
-            </div>
-
-            <aside className="flex flex-col gap-3">
-              <h2 className="font-semibold">Video Lainnya</h2>
-              <div className="flex flex-col gap-3">
-                {videos.map((video) => (
-                  <VideoCard key={video.id} video={video} active={video.id === active.id} />
-                ))}
-              </div>
-            </aside>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {videos.map((video) => (
+              <VideoCard key={video.id} video={video} />
+            ))}
           </div>
         )}
       </main>

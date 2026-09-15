@@ -27,10 +27,12 @@ export type AggregateVideo = {
 }
 
 export type VideoAvgAggregateOutputType = {
+  duration: number | null
   views: number | null
 }
 
 export type VideoSumAggregateOutputType = {
+  duration: number | null
   views: number | null
 }
 
@@ -39,6 +41,8 @@ export type VideoMinAggregateOutputType = {
   title: string | null
   description: string | null
   url: string | null
+  thumbnailUrl: string | null
+  duration: number | null
   published: boolean | null
   featured: boolean | null
   views: number | null
@@ -51,6 +55,8 @@ export type VideoMaxAggregateOutputType = {
   title: string | null
   description: string | null
   url: string | null
+  thumbnailUrl: string | null
+  duration: number | null
   published: boolean | null
   featured: boolean | null
   views: number | null
@@ -63,6 +69,8 @@ export type VideoCountAggregateOutputType = {
   title: number
   description: number
   url: number
+  thumbnailUrl: number
+  duration: number
   published: number
   featured: number
   views: number
@@ -73,10 +81,12 @@ export type VideoCountAggregateOutputType = {
 
 
 export type VideoAvgAggregateInputType = {
+  duration?: true
   views?: true
 }
 
 export type VideoSumAggregateInputType = {
+  duration?: true
   views?: true
 }
 
@@ -85,6 +95,8 @@ export type VideoMinAggregateInputType = {
   title?: true
   description?: true
   url?: true
+  thumbnailUrl?: true
+  duration?: true
   published?: true
   featured?: true
   views?: true
@@ -97,6 +109,8 @@ export type VideoMaxAggregateInputType = {
   title?: true
   description?: true
   url?: true
+  thumbnailUrl?: true
+  duration?: true
   published?: true
   featured?: true
   views?: true
@@ -109,6 +123,8 @@ export type VideoCountAggregateInputType = {
   title?: true
   description?: true
   url?: true
+  thumbnailUrl?: true
+  duration?: true
   published?: true
   featured?: true
   views?: true
@@ -208,6 +224,8 @@ export type VideoGroupByOutputType = {
   title: string
   description: string
   url: string
+  thumbnailUrl: string | null
+  duration: number | null
   published: boolean
   featured: boolean
   views: number
@@ -243,6 +261,8 @@ export type VideoWhereInput = {
   title?: Prisma.StringFilter<"Video"> | string
   description?: Prisma.StringFilter<"Video"> | string
   url?: Prisma.StringFilter<"Video"> | string
+  thumbnailUrl?: Prisma.StringNullableFilter<"Video"> | string | null
+  duration?: Prisma.IntNullableFilter<"Video"> | number | null
   published?: Prisma.BoolFilter<"Video"> | boolean
   featured?: Prisma.BoolFilter<"Video"> | boolean
   views?: Prisma.IntFilter<"Video"> | number
@@ -255,6 +275,8 @@ export type VideoOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  duration?: Prisma.SortOrderInput | Prisma.SortOrder
   published?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   views?: Prisma.SortOrder
@@ -270,6 +292,8 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Video"> | string
   description?: Prisma.StringFilter<"Video"> | string
   url?: Prisma.StringFilter<"Video"> | string
+  thumbnailUrl?: Prisma.StringNullableFilter<"Video"> | string | null
+  duration?: Prisma.IntNullableFilter<"Video"> | number | null
   published?: Prisma.BoolFilter<"Video"> | boolean
   featured?: Prisma.BoolFilter<"Video"> | boolean
   views?: Prisma.IntFilter<"Video"> | number
@@ -282,6 +306,8 @@ export type VideoOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  duration?: Prisma.SortOrderInput | Prisma.SortOrder
   published?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   views?: Prisma.SortOrder
@@ -302,6 +328,8 @@ export type VideoScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Video"> | string
   description?: Prisma.StringWithAggregatesFilter<"Video"> | string
   url?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
+  duration?: Prisma.IntNullableWithAggregatesFilter<"Video"> | number | null
   published?: Prisma.BoolWithAggregatesFilter<"Video"> | boolean
   featured?: Prisma.BoolWithAggregatesFilter<"Video"> | boolean
   views?: Prisma.IntWithAggregatesFilter<"Video"> | number
@@ -314,6 +342,8 @@ export type VideoCreateInput = {
   title: string
   description: string
   url: string
+  thumbnailUrl?: string | null
+  duration?: number | null
   published?: boolean
   featured?: boolean
   views?: number
@@ -326,6 +356,8 @@ export type VideoUncheckedCreateInput = {
   title: string
   description: string
   url: string
+  thumbnailUrl?: string | null
+  duration?: number | null
   published?: boolean
   featured?: boolean
   views?: number
@@ -338,6 +370,8 @@ export type VideoUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   views?: Prisma.IntFieldUpdateOperationsInput | number
@@ -350,6 +384,8 @@ export type VideoUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   views?: Prisma.IntFieldUpdateOperationsInput | number
@@ -362,6 +398,8 @@ export type VideoCreateManyInput = {
   title: string
   description: string
   url: string
+  thumbnailUrl?: string | null
+  duration?: number | null
   published?: boolean
   featured?: boolean
   views?: number
@@ -374,6 +412,8 @@ export type VideoUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   views?: Prisma.IntFieldUpdateOperationsInput | number
@@ -386,6 +426,8 @@ export type VideoUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   views?: Prisma.IntFieldUpdateOperationsInput | number
@@ -398,6 +440,8 @@ export type VideoCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  duration?: Prisma.SortOrder
   published?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   views?: Prisma.SortOrder
@@ -406,6 +450,7 @@ export type VideoCountOrderByAggregateInput = {
 }
 
 export type VideoAvgOrderByAggregateInput = {
+  duration?: Prisma.SortOrder
   views?: Prisma.SortOrder
 }
 
@@ -414,6 +459,8 @@ export type VideoMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  duration?: Prisma.SortOrder
   published?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   views?: Prisma.SortOrder
@@ -426,6 +473,8 @@ export type VideoMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  duration?: Prisma.SortOrder
   published?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   views?: Prisma.SortOrder
@@ -434,7 +483,16 @@ export type VideoMinOrderByAggregateInput = {
 }
 
 export type VideoSumOrderByAggregateInput = {
+  duration?: Prisma.SortOrder
   views?: Prisma.SortOrder
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 
@@ -444,6 +502,8 @@ export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   title?: boolean
   description?: boolean
   url?: boolean
+  thumbnailUrl?: boolean
+  duration?: boolean
   published?: boolean
   featured?: boolean
   views?: boolean
@@ -456,6 +516,8 @@ export type VideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   title?: boolean
   description?: boolean
   url?: boolean
+  thumbnailUrl?: boolean
+  duration?: boolean
   published?: boolean
   featured?: boolean
   views?: boolean
@@ -468,6 +530,8 @@ export type VideoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   title?: boolean
   description?: boolean
   url?: boolean
+  thumbnailUrl?: boolean
+  duration?: boolean
   published?: boolean
   featured?: boolean
   views?: boolean
@@ -480,6 +544,8 @@ export type VideoSelectScalar = {
   title?: boolean
   description?: boolean
   url?: boolean
+  thumbnailUrl?: boolean
+  duration?: boolean
   published?: boolean
   featured?: boolean
   views?: boolean
@@ -487,7 +553,7 @@ export type VideoSelectScalar = {
   updatedAt?: boolean
 }
 
-export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "url" | "published" | "featured" | "views" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
+export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "url" | "thumbnailUrl" | "duration" | "published" | "featured" | "views" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
 
 export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Video"
@@ -497,6 +563,8 @@ export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     title: string
     description: string
     url: string
+    thumbnailUrl: string | null
+    duration: number | null
     published: boolean
     featured: boolean
     views: number
@@ -929,6 +997,8 @@ export interface VideoFieldRefs {
   readonly title: Prisma.FieldRef<"Video", 'String'>
   readonly description: Prisma.FieldRef<"Video", 'String'>
   readonly url: Prisma.FieldRef<"Video", 'String'>
+  readonly thumbnailUrl: Prisma.FieldRef<"Video", 'String'>
+  readonly duration: Prisma.FieldRef<"Video", 'Int'>
   readonly published: Prisma.FieldRef<"Video", 'Boolean'>
   readonly featured: Prisma.FieldRef<"Video", 'Boolean'>
   readonly views: Prisma.FieldRef<"Video", 'Int'>

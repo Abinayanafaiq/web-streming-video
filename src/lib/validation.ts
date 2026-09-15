@@ -45,6 +45,14 @@ export const videoSchema = z.object({
     .refine((v) => /^https?:\/\//i.test(v), {
       message: "URL harus menggunakan http atau https.",
     }),
+  thumbnailUrl: z
+    .union([z.string().trim().url().max(1000), z.literal("")])
+    .optional()
+    .transform((v) => (v ? v : undefined)),
+  duration: z
+    .union([z.coerce.number().int().min(0).max(86_400), z.nan()])
+    .optional()
+    .transform((v) => (Number.isFinite(v) ? v : undefined)),
   published: z.coerce.boolean().optional(),
   featured: z.coerce.boolean().optional(),
 });

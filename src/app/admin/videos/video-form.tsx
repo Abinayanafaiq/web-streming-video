@@ -77,6 +77,42 @@ export default function VideoForm({ video }: Props) {
         />
       </div>
 
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor={`video-thumbnail-${video?.id ?? "new"}`}
+            className="text-sm font-medium"
+          >
+            URL Thumbnail
+          </label>
+          <input
+            id={`video-thumbnail-${video?.id ?? "new"}`}
+            name="thumbnailUrl"
+            type="url"
+            defaultValue={video?.thumbnailUrl ?? ""}
+            placeholder="https://contoh.com/gambar.jpg"
+            className="input"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor={`video-duration-${video?.id ?? "new"}`}
+            className="text-sm font-medium"
+          >
+            Durasi (detik)
+          </label>
+          <input
+            id={`video-duration-${video?.id ?? "new"}`}
+            name="duration"
+            type="number"
+            min={0}
+            defaultValue={video?.duration ?? ""}
+            placeholder="596"
+            className="input"
+          />
+        </div>
+      </div>
+
       <div className="flex flex-wrap gap-6">
         <label className="flex items-center gap-2 text-sm">
           <input

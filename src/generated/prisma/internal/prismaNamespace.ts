@@ -978,6 +978,8 @@ export const VideoScalarFieldEnum = {
   title: 'title',
   description: 'description',
   url: 'url',
+  thumbnailUrl: 'thumbnailUrl',
+  duration: 'duration',
   published: 'published',
   featured: 'featured',
   views: 'views',
